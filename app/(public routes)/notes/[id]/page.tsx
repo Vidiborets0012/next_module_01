@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import {
   dehydrate,
   HydrationBoundary,
@@ -9,6 +10,15 @@ import NoteDetailsClient from "./NoteDetails.client";
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const note = await getSingleNote(id);
+  return {
+    title: `Note: ${note.title}`,
+    description: note.content.slice(0, 30),
+  };
+}
 
 const NoteDetails = async ({ params }: Props) => {
   const { id } = await params;
