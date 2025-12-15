@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Category, createNote, NewNoteData } from "@/lib/api";
 
+import { useNoteDraftStore } from "@/lib/stores/noteStore";
+
 type Props = {
   categories: Category[];
 };
@@ -13,12 +15,27 @@ type Props = {
 const NoteForm = ({ categories }: Props) => {
   const router = useRouter();
 
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
+
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    setDraft({
+      ...draft,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   const { mutate } = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
+      clearDraft();
       router.push("/notes/filter/all");
     },
   });
+
   const handleCancel = () => router.push("/notes/filter/all");
 
   const handleSubmit = (formData: FormData) => {
@@ -31,17 +48,30 @@ const NoteForm = ({ categories }: Props) => {
     <form action={handleSubmit}>
       <label>
         Title
-        <input type="text" name="title" />
+        <input
+          type="text"
+          name="title"
+          defaultValue={draft?.title}
+          onChange={handleChange}
+        />
       </label>
 
       <label>
         Content
-        <textarea name="content"></textarea>
+        <textarea
+          name="content"
+          defaultValue={draft?.content}
+          onChange={handleChange}
+        ></textarea>
       </label>
 
       <label>
         Category
-        <select name="category">
+        <select
+          name="category"
+          defaultValue={draft?.categoryId}
+          onChange={handleChange}
+        >
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}
