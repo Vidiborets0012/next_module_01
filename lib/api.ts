@@ -30,30 +30,58 @@ export type NewNoteData = {
 };
 
 // axios.defaults.baseURL = "https://next-v1-notes-api.goit.study";
-axios.defaults.baseURL = "http://localhost:3000/api";
+// axios.defaults.baseURL = "http://localhost:3000/api";
+
+// Видаляємо стару логіку baseURL
+// axios.defaults.baseURL = 'http://localhost:3000/api'
+
+// Створюємо інстанс axios
+const nextServer = axios.create({
+  baseURL: "http://localhost:3000/api",
+  withCredentials: true, // дозволяє axios працювати з cookie
+});
 
 // export const getNotes = async () => {
 //   const res = await axios.get<NoteListResponse>("/notes");
 //   return res.data;
 // };
+
+// export const getNotes = async (categoryId?: string) => {
+//   const res = await axios.get<NoteListResponse>("/notes", {
+//     params: { categoryId },
+//   });
+//   return res.data;
+// };
 export const getNotes = async (categoryId?: string) => {
-  const res = await axios.get<NoteListResponse>("/notes", {
+  const res = await nextServer.get<NoteListResponse>("/notes", {
     params: { categoryId },
   });
   return res.data;
 };
 
+// export const getSingleNote = async (id: string) => {
+//   const res = await axios.get<Note>(`/notes/${id}`);
+//   return res.data;
+// };
 export const getSingleNote = async (id: string) => {
-  const res = await axios.get<Note>(`/notes/${id}`);
+  const res = await nextServer.get<Note>(`/notes/${id}`);
   return res.data;
 };
 
+// export const getCategories = async () => {
+//   const res = await axios<Category[]>("/categories");
+//   return res.data;
+// };
 export const getCategories = async () => {
-  const res = await axios<Category[]>("/categories");
+  const res = await nextServer<Category[]>("/categories");
   return res.data;
 };
 
+// export const createNote = async (data: NewNoteData) => {
+//   const res = await axios.post<Note>("/notes", data);
+//   return res.data;
+// };
 export const createNote = async (data: NewNoteData) => {
-  const res = await axios.post<Note>("/notes", data);
+  const res = await nextServer.post<Note>("/notes", data);
   return res.data;
 };
