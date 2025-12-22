@@ -107,3 +107,15 @@ export const register = async (data: RegisterRequest) => {
   const res = await nextServer.post<User>("/auth/register", data);
   return res.data;
 };
+
+// POST-запит на сервер – надсилаємо email і пароль, щоб перевірити, чи є такий акаунт. Якщо все добре, сервер створює сесію або токен і повертає його нам
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export const login = async (data: LoginRequest) => {
+  const res = await nextServer.post<User>("/auth/login", data);
+  return res.data;
+};
