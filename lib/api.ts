@@ -131,3 +131,10 @@ export const checkSession = async () => {
   const res = await nextServer.get<CheckSessionRequest>("/auth/session");
   return res.data.success;
 };
+
+//Отримання об’єкта користувача
+
+export const getMe = async () => {
+  const { data } = await nextServer.get<User>("/auth/me");
+  return data;
+};
