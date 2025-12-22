@@ -119,3 +119,15 @@ export const login = async (data: LoginRequest) => {
   const res = await nextServer.post<User>("/auth/login", data);
   return res.data;
 };
+
+// щоб дізнатися, чи дійсні поточні токени в браузері, нам потрібно зробити GET-запит до /auth/session.
+// У відповідь ми отримаємо або нові токени, або 401, що означає, що користувач не авторизований.
+
+type CheckSessionRequest = {
+  success: boolean;
+};
+
+export const checkSession = async () => {
+  const res = await nextServer.get<CheckSessionRequest>("/auth/session");
+  return res.data.success;
+};
