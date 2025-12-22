@@ -1,16 +1,16 @@
 import Link from "next/link";
-
+import css from "./Header.module.css";
 import CategoriesMenu from "../CategoriesMenu/CategoriesMenu";
 
 const Header = async () => {
   return (
-    <header>
-      <h2>NoteHub</h2>
+    <header className={css.header}>
+      {/* <h2>NoteHub</h2> */}
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
       <nav aria-label="Main Navigation">
-        <ul>
+        <ul className={css.navigation}>
           {/* <li>
             <Link href="/">Home</Link>
           </li>
