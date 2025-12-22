@@ -85,3 +85,25 @@ export const createNote = async (data: NewNoteData) => {
   const res = await nextServer.post<Note>("/notes", data);
   return res.data;
 };
+
+//Реєстрація – це POST-запит. Ми відправляємо дані, які користувач ввів у формі, а сервер створює новий обліковий запис і повертає нам об’єкт користувача.
+
+export type RegisterRequest = {
+  email: string;
+  password: string;
+  userName: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  userName?: string;
+  photoUrl?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export const register = async (data: RegisterRequest) => {
+  const res = await nextServer.post<User>("/auth/register", data);
+  return res.data;
+};
