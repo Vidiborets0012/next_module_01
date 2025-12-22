@@ -1,6 +1,7 @@
 import Link from "next/link";
 import css from "./Header.module.css";
 import CategoriesMenu from "../CategoriesMenu/CategoriesMenu";
+import AuthNavigation from "../AuthNavigation/AuthNavigation";
 
 const Header = async () => {
   return (
@@ -27,12 +28,13 @@ const Header = async () => {
             <Link href="/about">About</Link>
           </li>
           {/* Нові посилання */}
-          <li>
+          {/* <li>
             <Link href="/sign-in">Login</Link>
           </li>
           <li>
             <Link href="/sign-up">Register</Link>
-          </li>
+          </li> */}
+          <AuthNavigation />
         </ul>
       </nav>
     </header>
