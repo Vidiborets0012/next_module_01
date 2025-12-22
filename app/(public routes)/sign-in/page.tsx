@@ -8,9 +8,14 @@ import { useRouter } from "next/navigation";
 import { login, LoginRequest } from "@/lib/api";
 import { ApiError } from "@/app/api/api";
 
+import { useAuthStore } from "@/lib/stores/authStore";
+
 const SignIn = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+
+  // Отримуємо метод із стора
+  const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (formData: FormData) => {
     try {
@@ -20,6 +25,9 @@ const SignIn = () => {
       const res = await login(formValues);
       // Виконуємо редірект або відображаємо помилку
       if (res) {
+        // Записуємо користувача у глобальний стан
+        setUser(res);
+
         router.push("/profile");
       } else {
         setError("Invalid email or password");
